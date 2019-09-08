@@ -1,0 +1,20 @@
+version: '3'
+services:
+  trainer:
+    image: tensorflow/tensorflow:2.0.0rc0-gpu-py3
+    working_dir: /problem
+    container_name: trainer
+    entrypoint: tail -f /dev/null
+    volumes:
+      - .:/problem
+      - tensorboard:/tensorboard
+
+  tensorboard:
+    image: tensorflow/tensorflow:2.0.0rc0-gpu-py3
+    container_name: tensorboard
+    entrypoint: tensorboard --logdir /tensorboard/fit
+    ports: ["6006:6006"]
+    volumes: ["tensorboard:/tensorboard"]
+
+volumes:
+  tensorboard:
